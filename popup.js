@@ -14,6 +14,7 @@ getSelectedTabs((tab) => {
   parseSearch(url)
 })
 
+let decodeObj= {}
 /**
  * 格式化url所有参数
  * @param {String} url 
@@ -26,8 +27,14 @@ function parseSearch(url) {
   for (let item of searchList) {
     let tem = item.split('=')
     obj[tem[0]] = tem[1]
+    decodeObj[tem[0]] = window.decodeURIComponent(tem[1])
   }
   // 设置信息
   $('#item').html('search信息：'+JSON.stringify(obj))
   return obj
 }
+
+$('#decode').click(()=>{
+  $('#item').html($('#item').html()+'<br />search解码信息：'+JSON.stringify(decodeObj))
+  $('#decode').hide()
+})
