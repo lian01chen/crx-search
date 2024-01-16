@@ -8,13 +8,16 @@ function getSelectedTabs(callback) {
   })
 }
 getSelectedTabs((tab) => {
-  let url = tab.url
-  let title = tab.title
-  document.querySelector('#url').innerHTML = `当前页面url：${url},<br />当前页面title:${title}<br />`
-  parseSearch(url)
+  let url = tab.url;
+  let title = tab.title;
+  $('.sub-txt').html(`title：${title}`);
+  $('#url').html(`url：${url}`);
+  $('#qrTxt').val(url);
+  parseSearch(url);
+  createQrCode();
 })
 
-let decodeObj = {}
+
 /**
  * 格式化url所有参数
  * @param {String} url 
@@ -23,14 +26,14 @@ function parseSearch(url) {
   if (!url) return null
   let searchStr = url.split('?').length > 1 ? url.split('?')[1] : ''
   let searchList = searchStr && searchStr.split('&')
-  let obj = {}
+  let obj = {}, decodeObj = {};
   for (let item of searchList) {
     let tem = item.split('=')
     obj[tem[0]] = tem[1]
     decodeObj[tem[0]] = decodeText(tem[1])
   }
   // 设置信息
-  $('#item').html('search信息：' + JSON.stringify(obj))
+  $('#page-search-obj').html(JSON.stringify(decodeObj));
   return obj
 }
 /**
@@ -45,7 +48,21 @@ function decodeText(text) {
   return value
 }
 
-$('#decode').click(() => {
-  $('#item').html($('#item').html() + '<br />search解码信息：' + JSON.stringify(decodeObj))
-  $('#decode').hide()
-})
+
+/**
+ * 将当前输入内容生成二维码
+ */
+function createQrCode() {
+  let linkTxt = $('#qrTxt').val();
+  try {
+    QRCode.toCanvas(document.getElementById('qrcodeView'), linkTxt, function (err, url) { })
+  } catch (error) {
+    console.log('createQrCode error:', error);
+  }
+}
+
+// 文本框内容更新
+$('#qrTxt').on('change', createQrCode);
+
+// 更新二维码
+$('#nextQr').click(createQrCode);
