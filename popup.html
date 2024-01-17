@@ -8,21 +8,26 @@
   <title>Document</title>
   <script src="./libs/qrcode.min.js"></script>
   <style>
+    body {
+      padding: 0 0.6rem;
+      min-width: 300px;
+    }
+
     p {
       margin: 0.5rem auto;
     }
-  
+
     .title-txt {
       font-weight: bold;
       font-size: 15px;
       color: #ff5959;
     }
-  
+
     .sub-txt {
       font-size: 12px;
       color: #ff5959;
     }
-  
+
     .btn {
       text-align: center;
       background-color: #ff5959;
@@ -31,15 +36,19 @@
       border: none;
       border-radius: 6px;
     }
-  
+
     .row-flex {
       display: flex;
       flex-direction: row;
       align-items: center;
     }
-  
+
     .flex_1 {
       flex: 1;
+    }
+
+    .wrap {
+      word-wrap: break-word;
     }
   </style>
 </head>
@@ -48,17 +57,18 @@
   <!-- 页面链接解析部分 -->
   <p class="title-txt">当前页面地址:</p>
   <div> <span class="sub-txt"></span> </div>
-  <div> <span id="url"></span> </div>
+  <div> <span class="wrap" id="url"></span> </div>
   <p class="title-txt">页面参数:</p>
-  <span id="page-search-obj"></span>
+  <span class="wrap" id="page-search-obj"></span>
   <!-- 二维码部分 -->
   <div class="row-flex">
     <p class="title-txt flex_1">当前二维码内容:</p>
     <button id="nextQr" class="btn">更新</button>
   </div>
-  <textarea name="" id="qrTxt" cols="60" rows="5"></textarea>
+  <textarea name="" id="qrTxt" cols="60" rows="5" style="width:100%;"></textarea>
   <canvas id="qrcodeView"></canvas>
 </body>
 <script src="./jquery-1.8.3.js"></script>
 <script src="./popup.js"></script>
+
 </html>
